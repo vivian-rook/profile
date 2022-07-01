@@ -10,12 +10,10 @@ rm ~/.ssh_session.sh 2>/dev/null
 
 # create sudo that has, some of, our profile follow us
 if [[ $(id -u) -ne 0 ]] ; then
-    # this should probably be a ligitimate if block
-    grep -qxF 'exec bash --rcfile /home/rook/.rook-profile.sh "$@"' ~/.rook-sudo.sh || \
-    cat << '    EOF' > ~/.rook-sudo.sh
-    #!/bin/sh
-    exec bash --rcfile /home/rook/.rook-profile.sh "\$@"
-    EOF
+    cat << EOF > ~/.rook-sudo.sh
+#!/bin/sh
+exec bash --rcfile /home/rook/.rook-profile.sh "\$@"
+EOF
 
     chmod 755 ~/.rook-sudo.sh
     alias s='sudo su -s /home/rook/.rook-sudo.sh -'
