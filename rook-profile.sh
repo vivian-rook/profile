@@ -1,6 +1,5 @@
 # potential improvements:
 # shouldn't use /home/rook as that won't always be true. This should apply itself to anyone that I log in as.
-# probably put all the root exclusive bits in one block rather than many
 
 HISTFILESIZE=20000
 HISTSIZE=20000
@@ -9,7 +8,16 @@ HISTSIZE=20000
 rm ~/.ssh_session.sh 2>/dev/null
 
 # create sudo that has, some of, our profile follow us
-if [[ $(id -u) -ne 0 ]] ; then
+if [[ $(id -u) -eq 0 ]] ; then
+    # give root a green command line color
+    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+
+#if [[ $(id -u) -ne 0 ]] ; then
+else
+    # give rook a purple command line color
+    PS1='\[\033[01;35m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+
+    # update the .rook-sudo.sh allowing for bringing env via sudo
     cat << EOF > ~/.rook-sudo.sh
 #!/bin/sh
 exec bash --rcfile /home/rook/.rook-profile.sh "\$@"
@@ -17,13 +25,11 @@ EOF
 
     chmod 755 ~/.rook-sudo.sh
     alias s='sudo su -s /home/rook/.rook-sudo.sh -'
-fi
 
-if [[ $(id -u) -eq 0 ]] ; 
-then
-    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-else
-    PS1='\[\033[01;35m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    # only cleanup history if it is my history, not for root
+    # LOLI, maybe when running as root have it use my history then we could cleanup?
+    cp ~/.bash_history ~/.bash_history.$(date +'%Y%m')
+    cat -n ~/.bash_history.$(date +'%Y%m') | sort -k2 -k1n | tac | uniq -f1 | sort -n | cut -f2- | sed '/^hg /d' | sed '/^history /d' > ~/.bash_history
 fi
 
 set -o vi
@@ -42,19 +48,12 @@ cg() {
 # make Ctrl-d just exit the terminal, don't run the command first
 bind '"\C-d": "\C-u\C-d"'
 
-# maybe add something here to pull from git?
+# LOLI maybe add something here to pull from git?
 hs() {
     scp -q ~/.rook-profile.sh $1:.rook-profile.sh
     ssh $1 'grep -qxF "source ~/.rook-profile.sh" ~/.profile || echo "source ~/.rook-profile.sh" >> ~/.profile'
     ssh $1
 }
-
-# cleanup history
-if [[ $(id -u) -ne 0 ]] ; 
-then
-    cp ~/.bash_history ~/.bash_history.$(date +'%Y%m')
-    cat -n ~/.bash_history.$(date +'%Y%m') | sort -k2 -k1n | tac | uniq -f1 | sort -n | cut -f2- | sed '/^hg /d' | sed '/^history /d' > ~/.bash_history
-fi
 
 hg() {
     thehistory=$(history)
