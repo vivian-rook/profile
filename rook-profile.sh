@@ -1,5 +1,25 @@
+# potential improvements:
+# shouldn't use /home/rook as that won't always be true. This should apply itself to anyone that I log in as.
+# probably put all the root exclusive bits in one block rather than many
+
 HISTFILESIZE=20000
 HISTSIZE=20000
+
+# cleanup old name, remove this line eventually
+rm ~/.ssh_session.sh 2>/dev/null
+
+# create sudo that has, some of, our profile follow us
+if [[ $(id -u) -ne 0 ]] ; then
+    # this should probably be a ligitimate if block
+    grep -qxF 'exec bash --rcfile /home/rook/.rook-profile.sh "$@"' ~/.rook-sudo.sh || \
+    cat << '    EOF' > ~/.rook-sudo.sh
+    #!/bin/sh
+    exec bash --rcfile /home/rook/.rook-profile.sh "\$@"
+    EOF
+
+    chmod 755 ~/.rook-sudo.sh
+    alias s='sudo su -s /home/rook/.rook-sudo.sh -'
+fi
 
 if [[ $(id -u) -eq 0 ]] ; 
 then
@@ -40,14 +60,15 @@ fi
 
 hg() {
     thehistory=$(history)
-    
-    thehistory=$(grep -v -P '^[\d\s]+ hg ' <<< "${thehistory}")
+
+    # $() seems to mess up vim highlighting here. using `` for now
+    thehistory=`grep -v -P '^[\d\s]+ hg ' <<< "${thehistory}"`
     for var in "$@"
     do
-        thehistory=$(grep ${var} <<< "${thehistory}")
+        thehistory=`grep ${var} <<< "${thehistory}"`
     done
 
-    history -s $(echo "$thehistory" | tail -n1 | perl -pe 's/^ \d+ +//')
+    history -s $(echo "$thehistory" | tail -n1 | perl -pe 's/^ *\d+ +//')
     printf "$thehistory"
     echo
 }
