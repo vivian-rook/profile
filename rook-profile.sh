@@ -41,6 +41,7 @@ export EDITOR="$VISUAL"
 
 export PATH=$PATH:/home/rook/.local/bin:/usr/local/go/bin
 
+# truncate long lines when doing recursive grep
 cg() {
   grep -ir $1 * | cut -c1-120 | grep -i --color -E "^|$1"
 }
