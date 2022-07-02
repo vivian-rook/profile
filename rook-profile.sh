@@ -31,7 +31,7 @@ EOF
 
     # setup vimrc
     cat << EOF > ~/.vimrc
-set hlsearch # highlight all matching search terms
+set hlsearch " highlight all matching search terms
 set listchars=tab:ᐅ\ 
 set list
 
@@ -64,7 +64,8 @@ bind '"\C-d": "\C-u\C-d"'
 # LOLI maybe add something here to pull from git?
 hs() {
     scp -q ~/.rook-profile.sh $1:.rook-profile.sh
-    ssh $1 'grep -qxF "source ~/.rook-profile.sh" ~/.profile || echo "source ~/.rook-profile.sh" >> ~/.profile'
+    # LOLI .bashrc is not always read, see if we can establish what will be read and use that
+    ssh $1 'grep -qxF "source ~/.rook-profile.sh" ~/.bashrc || echo "source ~/.rook-profile.sh" >> ~/.bashrc'
     ssh $1
 }
 
