@@ -63,9 +63,9 @@ bind '"\C-d": "\C-u\C-d"'
 
 # LOLI maybe add something here to pull from git?
 hs() {
-    scp -q ~/.rook-profile.sh $1:.rook-profile.sh
     # LOLI .bashrc is not always read, see if we can establish what will be read and use that
-    ssh $1 'grep -qxF "source ~/.rook-profile.sh" ~/.bashrc || echo "source ~/.rook-profile.sh" >> ~/.bashrc'
+    profile64=$(base64 -w0 ~/.rook-profile.sh)
+    ssh $1 "echo -n $profile64 | base64 -d > ~/.rook-profile.sh && grep -qxF 'source ~/.rook-profile.sh' ~/.bashrc || echo 'source ~/.rook-profile.sh' >> ~/.bashrc"
     ssh $1
 }
 
