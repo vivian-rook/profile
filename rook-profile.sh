@@ -24,11 +24,6 @@ EOF
     chmod 755 ~/.rook-sudo.sh
     alias s='sudo su -s /home/rook/.rook-sudo.sh -'
 
-    # only cleanup history if it is my history, not for root
-    # LOLI, maybe when running as root have it use my history then we could cleanup?
-    cp ~/.bash_history ~/.bash_history.$(date +'%Y%m')
-    cat -n ~/.bash_history.$(date +'%Y%m') | sort -k2 -k1n | tac | uniq -f1 | sort -n | cut -f2- | sed '/^hg /d' | sed '/^history /d' > ~/.bash_history
-
     # setup vimrc
     cat << EOF > ~/.vimrc
 set hlsearch " highlight all matching search terms
@@ -52,6 +47,13 @@ export VISUAL=vim
 export EDITOR="$VISUAL"
 
 export PATH=$PATH:/home/rook/.local/bin:/usr/local/go/bin
+
+# maybe this could go in a logout profile?
+cleanup-history() {
+    cp ~/.bash_history ~/.bash_history.$(date +'%Y%m')
+    cat -n ~/.bash_history.$(date +'%Y%m') | sort -k2 -k1n | tac | uniq -f1 | sort -n | cut -f2- | sed '/^hg /d' | sed '/^history /d' > ~/.bash_history
+}
+
 
 # truncate long lines when doing recursive grep
 cg() {
