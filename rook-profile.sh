@@ -37,6 +37,12 @@ set expandtab
 
 autocmd Filetype javascript setlocal ts=4 sts=4 sw=4 noexpandtab
 EOF
+
+
+
+    # maybe this could go in a logout profile?
+    cp ~/.bash_history ~/.bash_history.$(date +'%Y%m%d')
+    cat -n ~/.bash_history.$(date +'%Y%m') | sort -k2 -k1n | tac | uniq -f1 | sort -n | cut -f2- | sed '/^hg /d' | sed '/^history /d' > ~/.bash_history
 fi
 
 set -o vi
@@ -48,9 +54,6 @@ export EDITOR="$VISUAL"
 export PATH=$PATH:/home/rook/.local/bin:/usr/local/go/bin
 
 
-# maybe this could go in a logout profile?
-cp ~/.bash_history ~/.bash_history.$(date +'%Y%m%d')
-cat -n ~/.bash_history.$(date +'%Y%m') | sort -k2 -k1n | tac | uniq -f1 | sort -n | cut -f2- | sed '/^hg /d' | sed '/^history /d' > ~/.bash_history
 
 # truncate long lines when doing recursive grep
 cg() {
