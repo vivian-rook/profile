@@ -45,15 +45,12 @@ shopt -s histverify
 
 export VISUAL=vim
 export EDITOR="$VISUAL"
-
 export PATH=$PATH:/home/rook/.local/bin:/usr/local/go/bin
 
-# maybe this could go in a logout profile?
-cleanup-history() {
-    cp ~/.bash_history ~/.bash_history.$(date +'%Y%m')
-    cat -n ~/.bash_history.$(date +'%Y%m') | sort -k2 -k1n | tac | uniq -f1 | sort -n | cut -f2- | sed '/^hg /d' | sed '/^history /d' > ~/.bash_history
-}
 
+# maybe this could go in a logout profile?
+cp ~/.bash_history ~/.bash_history.$(date +'%Y%m%d')
+cat -n ~/.bash_history.$(date +'%Y%m') | sort -k2 -k1n | tac | uniq -f1 | sort -n | cut -f2- | sed '/^hg /d' | sed '/^history /d' > ~/.bash_history
 
 # truncate long lines when doing recursive grep
 cg() {
