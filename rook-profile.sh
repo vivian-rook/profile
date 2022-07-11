@@ -6,6 +6,7 @@ HISTSIZE=20000
 
 # cleanup old name, remove this line eventually
 rm ~/.ssh_session.sh 2>/dev/null
+rm ~/.rook-sudo.sh 2>/dev/null
 
 # create sudo that has, some of, our profile follow us
 if [[ $(id -u) -eq 0 ]] ; then
@@ -14,15 +15,6 @@ if [[ $(id -u) -eq 0 ]] ; then
 else
     # give rook a purple command line color
     PS1='\[\033[01;35m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-
-    # update the .rook-sudo.sh allowing for bringing env via sudo
-    cat << EOF > ~/.rook-sudo.sh
-#!/bin/sh
-exec bash --rcfile /home/rook/.rook-profile.sh "\$@"
-EOF
-
-    chmod 755 ~/.rook-sudo.sh
-    alias s='sudo su -s /home/rook/.rook-sudo.sh -'
 
     # setup vimrc
     cat << EOF > ~/.vimrc
@@ -37,7 +29,6 @@ set expandtab
 
 autocmd Filetype javascript setlocal ts=4 sts=4 sw=4 noexpandtab
 EOF
-
 
 
     # maybe this could go in a logout profile?
@@ -57,7 +48,6 @@ export EDITOR="$VISUAL"
 export PATH=$PATH:/home/rook/.local/bin:/usr/local/go/bin
 
 
-
 # truncate long lines when doing recursive grep
 cg() {
   grep -ir $1 * | cut -c1-120 | grep -i --color -E "^|$1"
@@ -68,9 +58,8 @@ bind '"\C-d": "\C-u\C-d"'
 
 # LOLI maybe add something here to pull from git?
 hs() {
-    # LOLI .bashrc is not always read, see if we can establish what will be read and use that
     profile64=$(base64 -w0 ~/.rook-profile.sh)
-    ssh $1 "echo -n $profile64 | base64 -d > ~/.rook-profile.sh && grep -qxF 'source ~/.rook-profile.sh' ~/.bashrc || echo 'source ~/.rook-profile.sh' >> ~/.bashrc"
+    ssh $1 "echo -n $profile64 | base64 -d > ~/.rook-profile.sh && grep -qxF 'source ~/.rook-profile.sh' ~/.profile || echo 'source ~/.rook-profile.sh' | tee -a ~/.bash_profile ~/.profile"
     ssh $1
 }
 
