@@ -41,8 +41,11 @@ EOF
 
 
     # maybe this could go in a logout profile?
-    cp ~/.bash_history ~/.bash_history.$(date +'%Y%m%d')
-    cat -n ~/.bash_history.$(date +'%Y%m%d') | sort -k2 -k1n | tac | uniq -f1 | sort -n | cut -f2- | sed '/^hg /d' | sed '/^history /d' > ~/.bash_history
+    FILE=~/.bash_history.$(date +'%Y%m%d')
+    if [ ! -f $FILE ]; then
+        cp ~/.bash_history ~/.bash_history.$(date +'%Y%m%d')
+        cat -n ~/.bash_history.$(date +'%Y%m%d') | sort -k2 -k1n | tac | uniq -f1 | sort -n | cut -f2- | sed '/^hg /d' | sed '/^history /d' > ~/.bash_history
+    fi
 fi
 
 set -o vi
