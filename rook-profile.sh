@@ -57,9 +57,10 @@ cg() {
 bind '"\C-d": "\C-u\C-d"'
 
 # LOLI maybe add something here to pull from git?
+# LOLI is there some why to identify what file will be sourced, and use that?
 hs() {
     profile64=$(base64 -w0 ~/.rook-profile.sh)
-    ssh $1 "echo -n $profile64 | base64 -d > ~/.rook-profile.sh && grep -qxF 'source ~/.rook-profile.sh' ~/.profile || echo 'source ~/.rook-profile.sh' | tee -a ~/.bash_profile ~/.profile"
+    ssh $1 "echo -n $profile64 | base64 -d > ~/.rook-profile.sh && grep -qxF 'source ~/.rook-profile.sh' ~/.bashrc || echo 'source ~/.rook-profile.sh' | tee -a ~/.bashrc"
     ssh $1
 }
 
