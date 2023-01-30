@@ -68,6 +68,12 @@ gitpr() {
   git fetch origin pull/$1/head:pr-$1 ; git checkout pr-$1
 }
 
+music() {
+  IFS=$'\n'
+  mplayer $(ls | shuf)
+  unset IFS
+}
+
 hg() {
     thehistory=$(history)
 
