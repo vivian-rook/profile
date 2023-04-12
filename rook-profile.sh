@@ -4,9 +4,7 @@
 HISTFILESIZE=20000
 HISTSIZE=20000
 
-# cleanup old name, remove this line eventually
-rm ~/.ssh_session.sh 2>/dev/null
-rm ~/.rook-sudo.sh 2>/dev/null
+unset HISTTIMEFORMAT
 
 # create sudo that has, some of, our profile follow us
 if [[ $(id -u) -eq 0 ]] ; then
