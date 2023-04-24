@@ -86,3 +86,9 @@ hg() {
     printf "$thehistory"
     echo
 }
+
+alias kga='kubectl get all'
+alias kgp='kubectl get pods'
+alias gitp='git pull'
+alias gits='git status'
+alias gitcm='git checkout main'
