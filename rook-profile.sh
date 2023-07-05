@@ -87,6 +87,8 @@ hg() {
     echo
 }
 
+alias k='kubectl'
+alias kg='kubectl get'
 alias kga='kubectl get all'
 alias kgp='kubectl get pods'
 alias gitp='git pull'
