@@ -89,10 +89,16 @@ hg() {
 
 alias k='kubectl'
 alias kg='kubectl get'
-alias kga='kubectl get all'
-alias kgp='kubectl get pods'
-alias kgn='kubectl get nodes'
-alias ktp='kubectl top pods'
+# truncate long pod names
+alias kga='kubectl get all | awk '{ $1=substr($1, 1, 80); print }' | column -t'
+alias kgad='kubectl get all'
+alias kgp='kubectl get pods | awk '{ $1=substr($1, 1, 80); print }' | column -t'
+alias kgpd='kubectl get pods'
+# print ip and image
+alias kgn="kubectl get nodes -o wide | awk -F '  +' '{gsub(/ /, \"-\", \$8); print \$1,\$2,\$3,\$4,\$5,\$6,\$8}' | column -t"
+alias kgnd="kubectl get nodes"
+alias ktp='kubectl top pods | awk '{ $1=substr($1, 1, 80); print }' | column -t'
+alias ktpd='kubectl top pods'
 alias ktn='kubectl top nodes'
 alias gitp='git pull'
 alias gits='git status'
