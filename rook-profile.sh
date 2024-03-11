@@ -92,6 +92,7 @@ alias kg='kubectl get'
 # truncate long pod names
 # this one makes the columns weird on the non-pods...Maybe a better way to do it.
 #alias kga="kubectl get all | awk '{ \$1=substr(\$1, 1, 70); print }' | column -t"
+alias kd='kubectl describe'
 alias kga='kubectl get all'
 alias kgp="kubectl get pods | awk '{ \$1=substr(\$1, 1, 70); print }' | column -t"
 alias kgpd='kubectl get pods'
