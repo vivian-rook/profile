@@ -66,6 +66,10 @@ gitpr() {
   git fetch origin pull/$1/head:pr-$1 ; git checkout pr-$1
 }
 
+gitrp() {
+  git checkout main ; git branch -D $1 ; git pull ; git checkout $1
+}
+
 music() {
   IFS=$'\n'
   mplayer $(ls | shuf)
