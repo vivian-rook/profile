@@ -33,7 +33,9 @@ EOF
     FILE=~/.bash_history.$(date +'%Y%m%d')
     if [ ! -f $FILE ]; then
         cp ~/.bash_history ~/.bash_history.$(date +'%Y%m%d')
-        cat -n ~/.bash_history.$(date +'%Y%m%d') | sort -k2 -k1n | tac | uniq -f1 | sort -n | cut -f2- | sed '/^hg /d' | sed '/^history /d' > ~/.bash_history
+        # cat with line numbers | remove lines longer than 280 char | sort by column 2 then 1 numerically | tac | uniq ignore field 1 | sort numerically | drop starting number | remove any straggling hg | remove any straggling history
+        #cat -n ~/.bash_history.$(date +'%Y%m%d') | sed '/^.\{180\}./d' | sort -k2 -k1n | tac | uniq -f1 | sort -n | cut -f2- | sed '/^hg /d' | sed '/^history /d' > ~/.bash_history
+        cat -n ~/.bash_history.$(date +'%Y%m%d') | sed '/^.\{280\}./d' | sort -k2 | tac | uniq -f1 | sort -n | cut -f2- | sed '/^hg /d' | sed '/^history /d' > ~/.bash_history
     fi
 fi
 
