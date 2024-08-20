@@ -5,17 +5,18 @@ HISTFILESIZE=20000
 HISTSIZE=20000
 
 unset HISTTIMEFORMAT
+export VISUAL=vim
+export EDITOR="$VISUAL"
+export PATH=$PATH:/home/rook/.local/bin:/usr/local/go/bin
+export HISTCONTROL=ignoreboth:erasedups
+shopt -s histverify
 
-# create sudo that has, some of, our profile follow us
-if [[ $(id -u) -eq 0 ]] ; then
-    # give root a green command line color
-    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-else
-    # give rook a purple command line color
-    PS1='\[\033[01;35m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
-    # setup vimrc
-    cat << EOF > ~/.vimrc
+# give rook a purple command line color
+PS1='\[\033[01;35m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+
+# setup vimrc
+cat << EOF > ~/.vimrc
 set hlsearch " highlight all matching search terms
 set listchars=tab:ᐅ\ 
 set list
@@ -28,25 +29,7 @@ set expandtab
 autocmd Filetype javascript setlocal ts=4 sts=4 sw=4 noexpandtab
 EOF
 
-
-    # maybe this could go in a logout profile?
-    FILE=~/.bash_history.$(date +'%Y%m%d')
-    if [ ! -f $FILE ]; then
-        cp ~/.bash_history ~/.bash_history.$(date +'%Y%m%d')
-        # cat with line numbers | remove lines longer than 280 char | sort by column 2 then 1 numerically | tac | uniq ignore field 1 | sort numerically | drop starting number | remove any straggling hg | remove any straggling history
-        #cat -n ~/.bash_history.$(date +'%Y%m%d') | sed '/^.\{180\}./d' | sort -k2 -k1n | tac | uniq -f1 | sort -n | cut -f2- | sed '/^hg /d' | sed '/^history /d' > ~/.bash_history
-        cat -n ~/.bash_history.$(date +'%Y%m%d') | sed '/^.\{280\}./d' | sort -k2 | tac | uniq -f1 | sort -n | cut -f2- | sed '/^hg /d' | sed '/^history /d' > ~/.bash_history
-    fi
-fi
-
 set -o vi
-
-shopt -s histverify
-
-export VISUAL=vim
-export EDITOR="$VISUAL"
-export PATH=$PATH:/home/rook/.local/bin:/usr/local/go/bin
-
 
 # truncate long lines when doing recursive grep
 cg() {
@@ -92,6 +75,7 @@ hg() {
     printf "$thehistory"
     echo
 }
+
 
 alias k='kubectl'
 alias kg='kubectl get'
