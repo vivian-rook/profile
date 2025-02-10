@@ -83,6 +83,9 @@ hg() {
     echo
 }
 
+ke() {
+  kubectl exec -it $1 -- bash
+}
 
 alias k='kubectl'
 alias kg='kubectl get'
