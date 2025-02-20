@@ -1,6 +1,3 @@
-# potential improvements:
-# shouldn't use /home/rook as that won't always be true. This should apply itself to anyone that I log in as.
-
 HISTFILESIZE=20000
 HISTSIZE=20000
 
@@ -11,15 +8,16 @@ export PATH=$PATH:/home/rook/.local/bin:/usr/local/go/bin
 shopt -s histverify
 
 # maybe this could go in a logout profile?
-FILE=~/.bash_history.$(date +'%Y%m%d')
+FILE=~/.histories/bash_history.$(date +'%Y%m%d')
 if [ ! -f $FILE ]; then
-    cp ~/.bash_history ~/.bash_history.$(date +'%Y%m%d')
+    mkdir ~/.histories
+    cp ~/.bash_history ~/.histories/bash_history.$(date +'%Y%m%d')
     # cat with line numbers | remove lines longer than 280 char | sort by column 2 | tac | uniq ignore field 1 | sort numerically | drop starting number | remove any straggling hg | remove any straggling history
     cat -n ~/.bash_history.$(date +'%Y%m%d') | sed '/^.\{280\}./d' | sort -k2 | tac | uniq -f1 | sort -n | cut -f2- | sed '/^hg /d' | sed '/^history /d' > ~/.bash_history
 fi
 
 
-# give rook a purple command line color
+# give a purple command line color
 PS1='\[\033[01;35m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
 # setup vimrc
@@ -50,7 +48,7 @@ bind '"\C-d": "\C-u\C-d"'
 # LOLI is there some why to identify what file will be sourced, and use that?
 hs() {
     profile64=$(base64 -w0 ~/.rook-profile.sh)
-    ssh $1 "echo -n $profile64 | base64 -d > ~/.rook-profile.sh && grep -qxF 'source ~/.rook-profile.sh' ~/.bashrc || echo 'source ~/.rook-profile.sh' | tee -a ~/.bashrc"
+    ssh $1 "echo -n $profile64 | base64 -d > ~/.rook-profile.sh && grep -qxF 'source ~/.rook-profile.sh' ~/.bashrc || echo 'source ~/.rook-profile.sh' | tee -a ~/.bashrc ~/.profile"
     ssh $1
 }
 
