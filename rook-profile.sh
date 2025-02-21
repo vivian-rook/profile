@@ -10,10 +10,10 @@ shopt -s histverify
 # maybe this could go in a logout profile?
 FILE=~/.histories/bash_history.$(date +'%Y%m%d')
 if [ ! -f $FILE ]; then
-    mkdir ~/.histories
+    mkdir ~/.histories 2>/dev/null
     cp ~/.bash_history ~/.histories/bash_history.$(date +'%Y%m%d')
     # cat with line numbers | remove lines longer than 280 char | sort by column 2 | tac | uniq ignore field 1 | sort numerically | drop starting number | remove any straggling hg | remove any straggling history
-    cat -n ~/.bash_history.$(date +'%Y%m%d') | sed '/^.\{280\}./d' | sort -k2 | tac | uniq -f1 | sort -n | cut -f2- | sed '/^hg /d' | sed '/^history /d' > ~/.bash_history
+    cat -n ~/.histories/bash_history.$(date +'%Y%m%d') | sed '/^.\{280\}./d' | sort -k2 | tac | uniq -f1 | sort -n | cut -f2- | sed '/^hg /d' | sed '/^history /d' > ~/.bash_history
 fi
 
 
