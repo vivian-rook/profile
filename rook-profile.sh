@@ -4,7 +4,7 @@ HISTSIZE=20000
 unset HISTTIMEFORMAT
 export VISUAL=vim
 export EDITOR="$VISUAL"
-export PATH=$PATH:/home/rook/.local/bin:/usr/local/go/bin
+export PATH=$PATH:/home/rook/.local/bin:/usr/local/go/bin:$HOME/go/bin
 shopt -s histverify
 
 # maybe this could go in a logout profile?
