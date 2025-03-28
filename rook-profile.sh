@@ -107,3 +107,8 @@ alias gitdm='git diff main'
 alias gitdh='git diff HEAD~1'
 #alias gitdh='git diff main...HEAD'
 alias gita='git add .'
+
+
+# The image release process will append the /${repo}
+export TF_VAR_target_repository="cgr.dev/chainguard-eng/$(whoami)"
+export TF_VAR_target_custom_repository="cgr.dev/chainguard-eng/$(whoami)"
