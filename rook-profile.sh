@@ -107,6 +107,7 @@ alias gitdm='git diff main'
 alias gitdh='git diff HEAD~1'
 #alias gitdh='git diff main...HEAD'
 alias gita='git add .'
+alias gn='grep 2>/dev/null'
 
 
 # The image release process will append the /${repo}
