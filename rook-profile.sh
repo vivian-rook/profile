@@ -109,6 +109,10 @@ alias gitdh='git diff HEAD~1'
 alias gita='git add .'
 alias gn='grep 2>/dev/null'
 
+# cg specific
+alias cdo='cd ~/git/wolfi-dev/os'
+alias cde='cd ~/git/chainguard-dev/enterprise-packages'
+
 
 # The image release process will append the /${repo}
 export TF_VAR_target_repository="cgr.dev/chainguard-eng/$(whoami)"
