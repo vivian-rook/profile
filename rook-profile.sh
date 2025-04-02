@@ -115,5 +115,5 @@ alias cde='cd ~/git/chainguard-dev/enterprise-packages'
 
 
 # The image release process will append the /${repo}
-export TF_VAR_target_repository="cgr.dev/chainguard-eng/$(whoami)"
-export TF_VAR_target_custom_repository="cgr.dev/chainguard-eng/$(whoami)"
+export TF_VAR_target_repository="cgr.dev/chainguard-eng/rook"
+export TF_VAR_target_custom_repository="cgr.dev/chainguard-eng/rook"
