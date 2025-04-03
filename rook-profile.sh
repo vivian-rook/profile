@@ -112,6 +112,7 @@ alias gn='grep 2>/dev/null'
 # cg specific
 alias cdo='cd ~/git/wolfi-dev/os'
 alias cde='cd ~/git/chainguard-dev/enterprise-packages'
+alias cdi='cd ~/git/chainguard-dev/images-private/'
 
 
 # The image release process will append the /${repo}
