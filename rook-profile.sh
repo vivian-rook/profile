@@ -60,6 +60,15 @@ gitrp() {
   git checkout main ; git branch -D $1 ; git pull ; git checkout $1
 }
 
+sandbox() {
+  docker cp ~/.rook-profile.sh $1:/
+  docker exec -it $1 bash --rcfile /.rook-profile.sh
+}
+
+ksns() {
+  kubectl config set-context --current --namespace=$(kg ns | grep $1 | awk '{print $1}')
+}
+
 music() {
   IFS=$'\n'
   mplayer $(ls | shuf)
