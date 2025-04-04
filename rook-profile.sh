@@ -117,6 +117,7 @@ alias gitdh='git diff HEAD~1'
 #alias gitdh='git diff main...HEAD'
 alias gita='git add .'
 alias gn='grep 2>/dev/null'
+alias dockerrm='docker rm -vf $(docker ps -aq) ; docker rmi -f $(docker images -aq) ; docker system prune --volumes --all --force'
 
 # cg specific
 alias cdo='cd ~/git/wolfi-dev/os'
