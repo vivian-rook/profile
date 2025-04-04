@@ -124,6 +124,8 @@ alias cdo='cd ~/git/wolfi-dev/os'
 alias cde='cd ~/git/chainguard-dev/enterprise-packages'
 alias cdi='cd ~/git/chainguard-dev/images-private/'
 
+alias wsauth='chainctl auth logout ; /usr/local/bin/workstation-setup-user-02-cgr'
+
 
 # The image release process will append the /${repo}
 export TF_VAR_target_repository="cgr.dev/chainguard-eng/rook"
