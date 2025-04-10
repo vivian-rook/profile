@@ -65,6 +65,10 @@ sandbox() {
   docker exec -it $1 bash --rcfile /.rook-profile.sh
 }
 
+mkone() {
+    CHAINGUARD_VERSION_ALLOW="$1-$2" make image-debug/$1
+}
+
 ksns() {
   kubectl config set-context --current --namespace=$(kg ns | grep $1 | awk '{print $1}')
 }
@@ -117,7 +121,7 @@ alias gitdh='git diff HEAD~1'
 #alias gitdh='git diff main...HEAD'
 alias gita='git add .'
 alias gn='grep 2>/dev/null'
-alias dockerrm='docker rm -vf $(docker ps -aq) ; docker rmi -f $(docker images -aq) ; docker system prune --volumes --all --force'
+alias d-clean='docker rm -vf $(docker ps -aq) ; docker rmi -f $(docker images -aq) ; docker system prune --volumes --all --force'
 
 # cg specific
 alias cdo='cd ~/git/wolfi-dev/os'
