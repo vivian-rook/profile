@@ -83,7 +83,8 @@ hg() {
     thehistory=$(history)
 
     # $() seems to mess up vim highlighting here. using `` for now
-    thehistory=`grep -v -P '^[\d\s]+ hg ' <<< "${thehistory}"`
+    thehistory=`grep -v -P '^ [0-9]* *hg ' <<< "${thehistory}"`
+    #thehistory=`grep -v -P '^[\d\s]+ hg ' <<< "${thehistory}"` # this works though some systems don't have -P
     for var in "$@"
     do
         thehistory=`grep ${var} <<< "${thehistory}"`
