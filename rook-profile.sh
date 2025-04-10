@@ -95,6 +95,11 @@ hg() {
     echo
 }
 
+ws() {
+  #work scp -o StrictHosStrictHostKeyChecking=accept-new .rook-profile.sh ws:
+  WORKSTATION_USER=vivian-rook work
+}
+
 ke() {
   kubectl exec -it $1 -- bash
 }
@@ -122,6 +127,7 @@ alias gitdh='git diff HEAD~1'
 #alias gitdh='git diff main...HEAD'
 alias gita='git add .'
 alias gn='grep 2>/dev/null'
+alias d='docker'
 alias d-clean='docker rm -vf $(docker ps -aq) ; docker rmi -f $(docker images -aq) ; docker system prune --volumes --all --force'
 
 # cg specific
