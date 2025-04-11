@@ -61,8 +61,21 @@ gitrp() {
 }
 
 sandbox() {
-  docker cp ~/.rook-profile.sh $1:/
-  docker exec -it $1 bash --rcfile /.rook-profile.sh
+  sandboxes=$(docker ps | grep sandbox$ | wc -l)
+  if (( ${sandboxes} > 1 )); then
+    echo "Found multiple sandboxes trying the first I find."
+    sandbox=$(docker ps | grep sandbox$ | awk '{print $NF}' | head -1)
+    echo ${sandbox}
+  elif (( ${sandboxes} == 0 )); then
+    echo "I see no sandboxes here..."
+    return
+  else
+    sandbox=$(docker ps | grep sandbox$ | awk '{print $NF}')
+    echo ${sandbox}
+  fi 
+
+  docker cp ~/.rook-profile.sh ${sandbox}:/
+  docker exec -it ${sandbox} bash --rcfile /.rook-profile.sh
 }
 
 mkone() {
