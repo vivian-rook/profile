@@ -154,6 +154,7 @@ alias d-clean='docker rm -vf $(docker ps -aq) ; docker rmi -f $(docker images -a
 alias cdo='cd ~/git/wolfi-dev/os'
 alias cdo2='cd ~/git/2/wolfi-dev/os'
 alias cde='cd ~/git/chainguard-dev/enterprise-packages'
+alias cdex='cd ~/git/chainguard-dev/extra-packages'
 alias cdi='cd ~/git/chainguard-dev/images-private/'
 
 alias wsauth='chainctl auth logout ; /usr/local/bin/workstation-setup-user-02-cgr'
