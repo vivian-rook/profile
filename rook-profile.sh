@@ -148,6 +148,7 @@ alias gitdh='git diff HEAD~1'
 alias gita='git add'
 alias gn='grep 2>/dev/null'
 alias d='docker'
+alias dps='docker ps'
 alias d-clean='docker rm -vf $(docker ps -aq) ; docker rmi -f $(docker images -aq) ; docker system prune --volumes --all --force'
 
 # cg specific
