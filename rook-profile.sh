@@ -38,7 +38,7 @@ set -o vi
 
 # truncate long lines when doing recursive grep
 cg() {
-  grep -ir $1 * | cut -c1-120 | grep -i --color -E "^|$1"
+  grep -ir $1 * | cut -c1-240 | grep -i --color -E "^|$1"
 }
 
 # make Ctrl-d just exit the terminal, don't run the command first
@@ -138,6 +138,7 @@ alias ktp="kubectl top pods | awk '{ \$1=substr(\$1, 1, 70); print }' | column -
 alias ktpd='kubectl top pods'
 alias ktn='kubectl top nodes'
 alias gitp='git pull'
+alias gitclean='git checkout . ; git clean -df'
 alias gits='git status'
 alias gitc='git checkout'
 alias gitcm='git checkout main'
