@@ -37,7 +37,7 @@ EOF
 set -o vi
 
 # truncate long lines when doing recursive grep
-cg() {
+grepc() {
   grep -ir $1 * | cut -c1-240 | grep -i --color -E "^|$1"
 }
 
