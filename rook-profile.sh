@@ -119,6 +119,10 @@ ws() {
   #work scp -o StrictHosStrictHostKeyChecking=accept-new .rook-profile.sh ws:
   WORKSTATION_USER=vivian-rook work
 }
+ws2() {
+  #gcloud auth login --update-adc # this needs to run if the other fails. Opens a browser window
+  cg work ssh
+}
 
 ke() {
   kubectl exec -it $1 -- bash
@@ -156,6 +160,7 @@ alias gn='grep 2>/dev/null'
 alias d='docker'
 alias dps='docker ps'
 alias d-clean='docker rm -vf $(docker ps -aq) ; docker rmi -f $(docker images -aq) ; docker system prune --volumes --all --force'
+alias sshagent='eval `ssh-agent -s` ; ssh-add ~/.ssh/id_ed25519'
 
 # cg specific
 alias cdo='cd ~/git/wolfi-dev/os'
