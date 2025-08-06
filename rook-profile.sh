@@ -115,11 +115,11 @@ hg() {
     echo
 }
 
+#ws() {
+#  #work scp -o StrictHosStrictHostKeyChecking=accept-new .rook-profile.sh ws:
+#  WORKSTATION_USER=vivian-rook work
+#}
 ws() {
-  #work scp -o StrictHosStrictHostKeyChecking=accept-new .rook-profile.sh ws:
-  WORKSTATION_USER=vivian-rook work
-}
-ws2() {
   #gcloud auth login --update-adc # this needs to run if the other fails. Opens a browser window
   cg work ssh
 }
@@ -133,7 +133,7 @@ alias kg='kubectl get'
 alias kd='kubectl describe'
 alias kga='kubectl get all'
 # truncate long pod names
-alias kgp="kubectl get pods | awk '{ \$1=substr(\$1, 1, 70); print }' | column -t"
+alias kgp='kubectl get pods'
 alias kgpd='kubectl get pods'
 # print ip and image
 alias kgn="kubectl get nodes -o wide | awk -F '  +' '{gsub(/ /, \"-\", \$8); print \$1,\$2,\$3,\$4,\$5,\$6,\$8}' | column -t"
