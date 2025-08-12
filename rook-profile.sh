@@ -124,6 +124,11 @@ ws() {
   cg work ssh
 }
 
+ws16() {
+  cg work stop
+  cg work create --machine-type n2-standard-16
+}
+
 ke() {
   kubectl exec -it $1 -- bash
 }
