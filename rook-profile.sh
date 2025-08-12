@@ -121,7 +121,15 @@ hg() {
 #}
 ws() {
   #gcloud auth login --update-adc # this needs to run if the other fails. Opens a browser window
-  cg work ssh
+  # us [] to keep grep from finding itself
+  if ps ax | grep [v]ivian_rook_chainguard_dev@ ; then
+    login=$(ps ax | grep [v]ivian_rook_chainguard_dev@ | head -1 | awk '{print $NF}')
+    profile64=$(base64 -w0 ~/.rook-profile.sh)
+    ssh -o StrictHostKeyChecking=no $login "echo -n $profile64 | base64 -d > ~/.rook-profile.sh && grep -qxF 'source ~/.rook-profile.sh' ~/.bashrc || echo 'source ~/.rook-profile.sh' | tee -a ~/.bashrc ~/.profile"
+    cg work ssh
+  else
+    cg work ssh
+  fi
 }
 
 ws16() {
