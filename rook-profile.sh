@@ -22,6 +22,7 @@ PS1='\[\033[01;35m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
 # setup vimrc
 cat << EOF > ~/.vimrc
+set encoding=utf-8
 set hlsearch " highlight all matching search terms
 set listchars=tab:ᐅ\ 
 set list
