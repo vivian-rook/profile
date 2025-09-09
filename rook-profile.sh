@@ -90,6 +90,11 @@ mkone() {
     CHAINGUARD_VERSION_ALLOW="$1-$2" make image-debug/$1
 }
 
+helmsetup() {
+  export PATH=$PATH:$(find / | grep helm$ | grep bin | head -1 | sed 's/helm$//')
+  kubectl config view --raw=true > /root/.kube/config
+}
+
 ksns() {
   kubectl config set-context --current --namespace=$(kg ns | grep $1 | awk '{print $1}')
 }
