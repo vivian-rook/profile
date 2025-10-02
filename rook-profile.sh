@@ -188,7 +188,8 @@ alias cde='cd ~/git/chainguard-dev/enterprise-packages'
 alias cdex='cd ~/git/chainguard-dev/extra-packages'
 alias cdi='cd ~/git/chainguard-dev/images-private/'
 
-alias wsauth='chainctl auth logout ; ~/git/image-fulfillment-sandbox/phil.roche/login-images.sh'
+# seems to work automatically now
+#alias wsauth='chainctl auth logout ; ~/git/image-fulfillment-sandbox/phil.roche/login-images.sh'
 
 
 # The image release process will append the /${repo}
