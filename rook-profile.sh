@@ -96,7 +96,9 @@ helmsetup() {
 }
 
 ksns() {
-  kubectl config set-context --current --namespace=$(kg ns | grep $1 | awk '{print $1}')
+  namespace=$(kg ns | grep $1 | head -1 | awk '{print $1}')
+  kubectl config set-context --current --namespace=${namespace}
+  echo "switching to ${namespace}"
 }
 
 music() {
