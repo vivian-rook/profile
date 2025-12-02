@@ -151,6 +151,7 @@ alias k='kubectl'
 alias kg='kubectl get'
 alias kd='kubectl describe'
 alias kga='kubectl get all'
+alias kgA='kubectl get all -A'
 # truncate long pod names
 alias kgp='kubectl get pods'
 alias kgpd='kubectl get pods'
