@@ -184,18 +184,6 @@ alias dps='docker ps'
 alias d-clean='docker rm -vf $(docker ps -aq) ; docker rmi -f $(docker images -aq) ; docker system prune --volumes --all --force'
 alias sshagent='eval `ssh-agent -s` ; ssh-add ~/.ssh/id_ed25519'
 
-# cg specific
-alias cdo='cd ~/git/wolfi-dev/os'
-alias cdw='cd ~/git/chainguard-dev/wiki'
-alias cdo2='cd ~/git/2/wolfi-dev/os'
-alias cde='cd ~/git/chainguard-dev/enterprise-packages'
-alias cdex='cd ~/git/chainguard-dev/extra-packages'
-alias cdi='cd ~/git/chainguard-dev/images-private/'
-
-# seems to work automatically now
-#alias wsauth='chainctl auth logout ; ~/git/image-fulfillment-sandbox/phil.roche/login-images.sh'
-
-
 # The image release process will append the /${repo}
 export TF_VAR_target_repository="cgr.dev/chainguard-eng/rook"
 export TF_VAR_target_custom_repository="cgr.dev/chainguard-eng/rook"
