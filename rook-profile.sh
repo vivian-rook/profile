@@ -61,40 +61,6 @@ gitrp() {
   git checkout main ; git branch -D $1 ; git pull ; git checkout $1
 }
 
-sandbox() {
-    if [ -z "${1}" ];
-    then
-      sandboxes=$(docker ps | grep sandbox$ | wc -l)
-      if (( ${sandboxes} > 1 ));
-      then
-        echo "Found multiple sandboxes trying the first I find."
-        sandbox=$(docker ps | grep sandbox$ | awk '{print $NF}' | head -1)
-        echo ${sandbox}
-      elif (( ${sandboxes} == 0 ));
-      then
-        echo "I see no sandboxes here..."
-        return
-      else
-        sandbox=$(docker ps | grep sandbox$ | awk '{print $NF}')
-        echo ${sandbox}
-      fi
-    else
-      sandbox=${1}
-    fi
-
-  docker cp ~/.rook-profile.sh ${sandbox}:/
-  docker exec -it ${sandbox} bash --rcfile /.rook-profile.sh
-}
-
-mkone() {
-    CHAINGUARD_VERSION_ALLOW="$1-$2" make image-debug/$1
-}
-
-helmsetup() {
-  export PATH=$PATH:$(find / | grep helm$ | grep bin | head -1 | sed 's/helm$//')
-  kubectl config view --raw=true > /root/.kube/config
-}
-
 ksns() {
   namespace=$(kg ns | grep $1 | head -1 | awk '{print $1}')
   kubectl config set-context --current --namespace=${namespace}
@@ -121,28 +87,6 @@ hg() {
     history -s $(echo "$thehistory" | tail -n1 | perl -pe 's/^ *\d+ +//')
     printf "$thehistory"
     echo
-}
-
-#ws() {
-#  #work scp -o StrictHosStrictHostKeyChecking=accept-new .rook-profile.sh ws:
-#  WORKSTATION_USER=vivian-rook work
-#}
-ws() {
-  #gcloud auth login --update-adc # this needs to run if the other fails. Opens a browser window
-  # us [] to keep grep from finding itself
-  if ps ax | grep [v]ivian_rook_chainguard_dev@ ; then
-    login=$(ps ax | grep [v]ivian_rook_chainguard_dev@ | head -1 | awk '{print $NF}')
-    profile64=$(base64 -w0 ~/.rook-profile.sh)
-    ssh -o StrictHostKeyChecking=no $login "echo -n $profile64 | base64 -d > ~/.rook-profile.sh && grep -qxF 'source ~/.rook-profile.sh' ~/.bashrc || echo 'source ~/.rook-profile.sh' | tee -a ~/.bashrc ~/.profile"
-    cg work ssh
-  else
-    cg work ssh
-  fi
-}
-
-ws16() {
-  cg work stop
-  cg work create --machine-type n2-standard-16
 }
 
 ke() {
