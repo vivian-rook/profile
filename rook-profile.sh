@@ -73,6 +73,11 @@ music() {
   unset IFS
 }
 
+# do you ever not change into a directory that you just made?
+mkcd() {
+  mkdir $1 ; cd $1
+}
+
 hg() {
     thehistory=$(history)
 
