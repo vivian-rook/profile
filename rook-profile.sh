@@ -91,6 +91,7 @@ music() {
     song=${choices[ $RANDOM % ${#choices[@]} ]}
     read popularity < ${musicDirectory}/${song}.pop
 
+    # LOLI doesn't catch non-ascii characters
     echo "__${song}_${popularity}__" | tr  [:alnum:][:punct:] '-'
     echo "| ${song} ${popularity} |"
     echo "__${song}_${popularity}__" | tr  [:alnum:][:punct:] '-'
@@ -123,7 +124,8 @@ music() {
           ;;
         q)
           kill -9 $pid
-          exit
+          echo
+          return
           ;;
       esac
     done
