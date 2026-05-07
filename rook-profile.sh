@@ -68,9 +68,66 @@ ksns() {
 }
 
 music() {
-  IFS=$'\n'
-  mplayer $(ls | shuf)
-  unset IFS
+  set +m # don't show background jobs quitting
+  musicDirectory="${HOME}/music/artist_-_song/"
+
+  # find a random song to play weighted by each songs popularity. This is run
+  # outside the loop as it takes a few seconds to run which is felt when skipping
+  # songs.  This would mean that popularity changes wouldn't be reflected is the
+  # current run of music, only on a restart.
+  for i in $(ls ${musicDirectory} | grep -v .pop$); do
+    if [ -e "${musicDirectory}/${i}.pop" ]; then
+      read popularity < ${musicDirectory}/${i}.pop
+    else
+      echo "10" > ${musicDirectory}/${i}.pop
+      popularity=10
+    fi
+    for count in $(seq $popularity); do
+      choices+=(${i})
+    done
+  done
+
+  while true; do
+    song=${choices[ $RANDOM % ${#choices[@]} ]}
+    read popularity < ${musicDirectory}/${song}.pop
+
+    echo "__${song}_${popularity}__" | tr  [:alnum:][:punct:] '-'
+    echo "| ${song} ${popularity} |"
+    echo "__${song}_${popularity}__" | tr  [:alnum:][:punct:] '-'
+    # not a lot of explination for why but for running in background manual
+    # suggests using a redirect from /dev/null
+    # http://www.mplayerhq.hu/DOCS/HTML/en/faq.html#idm5934
+    mplayer -nolirc -really-quiet ${musicDirectory}${song} < /dev/null & 2> /dev/null
+    pid=$!
+
+    while kill -0 $pid 2> /dev/null; do
+      read -t 0.5 -n 1 name
+      case $name in
+        m) # more, increase song popularity
+          read popularity < ${musicDirectory}/${song}.pop
+          popularity=$((popularity + 1))
+          echo "${popularity}" > ${musicDirectory}/${song}.pop
+          ;;
+        l) # less, decrease song popularity
+          read popularity < ${musicDirectory}/${song}.pop
+          popularity=$((popularity - 1))
+          # do not reduce popularity below 1 if we don't want to listen to it
+          # that bad remove the song from the archive.
+          if [ "${popularity}" -gt "0" ]; then
+              echo "${popularity}" > ${musicDirectory}/${song}.pop
+          fi
+          ;;
+        n)
+          echo
+          kill $pid
+          ;;
+        q)
+          kill -9 $pid
+          exit
+          ;;
+      esac
+    done
+  done
 }
 
 # do you ever not change into a directory that you just made?
