@@ -191,7 +191,3 @@ alias d='docker'
 alias dps='docker ps'
 alias d-clean='docker rm -vf $(docker ps -aq) ; docker rmi -f $(docker images -aq) ; docker system prune --volumes --all --force'
 alias sshagent='eval `ssh-agent -s` ; ssh-add ~/.ssh/id_ed25519'
-
-# The image release process will append the /${repo}
-export TF_VAR_target_repository="cgr.dev/chainguard-eng/rook"
-export TF_VAR_target_custom_repository="cgr.dev/chainguard-eng/rook"
